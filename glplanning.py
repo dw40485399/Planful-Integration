@@ -63,12 +63,14 @@ if __name__ == '__main__':
     auth = cfg_data['planful']['authorization']
     baseurl = cfg_data['planful']['base_url']
 
-    url = baseurl + f'?Scenario={scenario}&FiscalYear={fiscal_year}'
+    url = baseurl
+    url_params = [('Scenario', {scenario}), ('FiscalYear', {fiscal_year})]
+
     try:
-        __logger.info(f'Performing GET from {url}')
+        __logger.info(f'Performing GET from {url} {url_params}')
         payload = {}
         header = {'Authorization': auth}
-        resp_req = requests.get(url, headers=header, data=payload)
+        resp_req = requests.get(url, params=url_params, headers=header, data=payload)
         resp_handler = json.loads(resp_req.text)
         print(resp_handler)
         __logger.info(f'Response payload received')
